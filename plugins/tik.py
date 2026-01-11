@@ -20,6 +20,39 @@ HEADERS = {
     "Origin": "https://tikdownloader.io"
 }
 
+def normalize_tiktok_url(raw: str) -> str:
+    """
+    Accept common TikTok share/short links (vt.tiktok.com, vm.tiktok.com, m.tiktok.com, tiktok.com)
+    and ensure it has a scheme.
+    """
+    raw = (raw or "").strip()
+    if not raw:
+        return ""
+    if raw.startswith("//"):
+        raw = "https:" + raw
+    if not re.match(r'^https?://', raw, re.IGNORECASE):
+        raw = "https://" + raw
+    return raw
+
+async def resolve_redirect(url: str) -> str:
+    """
+    Resolve short/share URLs to their final destination (best-effort).
+    """
+    try:
+        async with aiohttp.ClientSession(headers={"User-Agent": HEADERS.get("User-Agent","Mozilla/5.0")}) as session:
+            async with session.get(url, allow_redirects=True, timeout=10) as resp:
+                return str(resp.url)
+    except Exception:
+        return url
+
+def is_tiktok_url(url: str) -> bool:
+    try:
+        host = urlparse(url).netloc.lower()
+        return any(h in host for h in ["tiktok.com", "vt.tiktok.com", "vm.tiktok.com"])
+    except Exception:
+        return False
+
+
 def sanitize_filename(filename):
     """Remove invalid characters and query parameters from filename, ensuring extension."""
     filename = filename.split('?')[0]
@@ -62,7 +95,9 @@ async def fetch_tiktok_data(url: str):
 
 @router.get("/dl")
 async def download_tiktok_links(url: str):
-    if not url or not url.startswith("https://www.tiktok.com/"):
+    url = normalize_tiktok_url(url)
+    url = await resolve_redirect(url)
+    if not url or not is_tiktok_url(url):
         return JSONResponse(
             status_code=400,
             content={

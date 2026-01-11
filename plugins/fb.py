@@ -3,8 +3,16 @@ from fastapi.responses import JSONResponse
 import requests
 from bs4 import BeautifulSoup
 import re
+import json
+from utils import LOGGER
 
 router = APIRouter(prefix="/fb", tags=["Facebook Downloader"])
+
+def _unescape_json_str(s: str) -> str:
+    try:
+        return json.loads(f'"{s}"')
+    except Exception:
+        return s.replace('\\/', '/')
 
 @router.get("/dl")
 async def fb_downloader(url: str = ""):
@@ -18,7 +26,7 @@ async def fb_downloader(url: str = ""):
             }
         )
 
-    if not any(x in url for x in ["facebook.com", "fb.watch", "fb.com"]):
+    if not any(x in url for x in ["facebook.com", "fb.watch", "fb.com", "m.facebook.com"]):
         return JSONResponse(
             status_code=400,
             content={
@@ -28,93 +36,51 @@ async def fb_downloader(url: str = ""):
             }
         )
 
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Linux; Android 13; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Mobile Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+    }
+
     try:
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Linux; Android 15; V2434 Build/AP3A.240905.015.A2_NN_V000L1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.7499.35 Mobile Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "cache-control": "max-age=0",
-            "sec-ch-ua": '"Android WebView";v="143", "Chromium";v="143", "Not A(Brand)";v="24"',
-            "sec-ch-ua-mobile": "?1",
-            "sec-ch-ua-platform": '"Android"',
-            "origin": "https://fdown.net",
-            "upgrade-insecure-requests": "1",
-            "x-requested-with": "mark.via.gp",
-            "sec-fetch-site": "same-origin",
-            "sec-fetch-mode": "navigate",
-            "sec-fetch-user": "?1",
-            "sec-fetch-dest": "document",
-            "referer": "https://fdown.net/",
-            "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-            "priority": "u=0, i"
-        }
+        # Resolve short/redirecting links (fb.watch, etc.)
+        r0 = requests.get(url, headers=headers, allow_redirects=True, timeout=20)
+        final_url = r0.url
 
-        payload = {
-            "URLz": url.strip()
-        }
+        # Prefer m.facebook.com for easier parsing (best-effort)
+        if "facebook.com" in final_url and "m.facebook.com" not in final_url:
+            final_url = final_url.replace("www.facebook.com", "m.facebook.com")
+            final_url = final_url.replace("facebook.com/", "m.facebook.com/")
 
-        resp = requests.post(
-            "https://fdown.net/download.php",
-            data=payload,
-            headers=headers,
-            timeout=45
-        )
+        resp = requests.get(final_url, headers=headers, allow_redirects=True, timeout=20)
+        html_text = resp.text
 
-        if resp.status_code != 200:
-            return JSONResponse(
-                status_code=502,
-                content={
-                    "error": "Third-party service temporarily down",
-                    "api_owner": "@ISmartCoder",
-                    "api_updates": "t.me/abirxdhackz"
-                }
-            )
+        hd = None
+        sd = None
 
-        html = resp.text
-        soup = BeautifulSoup(html, 'html.parser')
+        # Primary: embedded JSON keys
+        m_hd = re.search(r'"playable_url_quality_hd"\s*:\s*"([^"]+)"', html_text)
+        if m_hd:
+            hd = _unescape_json_str(m_hd.group(1))
 
-        title = "Facebook Video"
-        title_elem = soup.find('div', class_='lib-row lib-header')
-        if title_elem:
-            title_text = title_elem.get_text(strip=True)
-            if title_text and title_text != "No video title":
-                title = title_text
+        m_sd = re.search(r'"playable_url"\s*:\s*"([^"]+)"', html_text)
+        if m_sd:
+            sd = _unescape_json_str(m_sd.group(1))
 
-        thumbnail = None
-        img_elem = soup.find('img', class_='lib-img-show')
-        if img_elem and img_elem.get('src'):
-            thumb_src = img_elem['src']
-            if 'no-thumbnail-fbdown.png' not in thumb_src:
-                thumbnail = thumb_src
+        # Fallback: OG meta
+        soup = BeautifulSoup(html_text, "lxml")
+        if not (hd or sd):
+            og = soup.find("meta", property="og:video") or soup.find("meta", property="og:video:url")
+            if og and og.get("content"):
+                sd = og["content"]
 
         links = []
-        download_links = soup.find_all('a', href=True)
-        
-        for link in download_links:
-            href = link.get('href', '')
-            text = link.get_text(strip=True)
-            
-            if 'download' in href.lower() or 'fbcdn.net' in href:
-                quality = "Unknown"
-                
-                if 'hd' in text.lower() or 'high' in text.lower():
-                    quality = "HD"
-                elif 'sd' in text.lower() or 'normal' in text.lower() or 'low' in text.lower():
-                    quality = "SD"
-                elif text:
-                    quality = text
-                
-                if href.startswith('http'):
-                    links.append({"quality": quality, "url": href})
+        if hd:
+            links.append({"quality": "HD", "format": "mp4", "url": hd})
+        if sd and sd != hd:
+            links.append({"quality": "SD", "format": "mp4", "url": sd})
 
-        seen = set()
-        unique_links = []
-        for item in links:
-            if item["url"] not in seen:
-                seen.add(item["url"])
-                unique_links.append(item)
-
-        if not unique_links:
+        if not links:
             return JSONResponse(
                 status_code=404,
                 content={
@@ -124,16 +90,23 @@ async def fb_downloader(url: str = ""):
                 }
             )
 
-        return {
-            "title": title,
-            "thumbnail": thumbnail,
-            "links": unique_links,
-            "total_links": len(unique_links),
-            "api_owner": "@ISmartCoder",
-            "api_updates": "t.me/abirxdhackz"
-        }
+        # Title & thumbnail (best effort)
+        title = (soup.find("meta", property="og:title") or {}).get("content") if soup else None
+        thumb = (soup.find("meta", property="og:image") or {}).get("content") if soup else None
+
+        return JSONResponse(
+            content={
+                "status": "success",
+                "title": title or "N/A",
+                "thumbnail": thumb or "N/A",
+                "downloads": links,
+                "api_owner": "@ISmartCoder",
+                "api_updates": "t.me/abirxdhackz"
+            }
+        )
 
     except Exception as e:
+        LOGGER.error(f"FB downloader error: {e}")
         return JSONResponse(
             status_code=500,
             content={
