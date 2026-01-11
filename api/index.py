@@ -1,25 +1,33 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-import os
+import os, sys
 
-# Import the YT router from the original project (copied into this deploy bundle)
-from plugins.yt import router as yt_router
+# Ensure imports work on Vercel
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
 
-app = FastAPI(title="A360 YT API (Vercel)")
+from plugins.insta import router as insta_router
+from plugins.fb import router as fb_router
+from plugins.tik import router as tik_router
+from plugins.pnt import router as pnt_router
 
-# Helpful root route
+app = FastAPI(title="A360 Social Downloader API (Insta/Fb/Tik/Pnt)")
+
+app.include_router(insta_router, tags=["Instagram Downloader"])
+app.include_router(fb_router, tags=["Facebook Downloader"])
+app.include_router(tik_router, tags=["TikTok Downloader"])
+app.include_router(pnt_router, tags=["Pinterest Downloader"])
+
 @app.get("/")
 async def root():
     return {
         "status": "ok",
-        "service": "A360 YT API",
-        "endpoints": ["/yt/search?query=", "/yt/dl?url="]
+        "endpoints": [
+            "/insta/dl?url=",
+            "/fb/dl?url=",
+            "/tik/dl?url=",
+            "/pnt/dl?url=",
+            "/docs"
+        ]
     }
-
-# Mount the /yt routes
-app.include_router(yt_router)
-
-# Vercel health check convenience
-@app.get("/health")
-async def health():
-    return JSONResponse(content={"status": "healthy"})
