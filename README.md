@@ -1,13 +1,18 @@
-# A360 Temp Mail API (Vercel Ready)
+# A360 Social Downloader (Vercel)
 
-## Endpoints
-- GET /tmail/gen?username=optional&password=optional
-  - Creates a mail.tm account + returns token
-- GET /tmail/cmail?token=...
-  - Checks inbox and returns latest messages (up to 10)
+This is a Vercel-ready FastAPI app exposing only 4 downloaders from A360API:
+
+- gram:  GET /insta/dl?url=
+- Facebook:   GET /fb/dl?url=
+- TikTok:     GET /tik/dl?url=
+- Pinterest:  GET /pnt/dl?url=
+
+After deploy, open `/docs` for Swagger UI.
 
 ## Deploy
-Upload to GitHub, import in Vercel, deploy.
+- Push this folder to GitHub
+- Import in Vercel and Deploy (Framework: Other)
 
-## Notes
-This uses https://api.mail.tm as the backend service.
+## Local run
+pip install -r requirements.txt
+uvicorn api.index:app --reload
