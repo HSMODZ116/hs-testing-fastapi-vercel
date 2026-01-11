@@ -80,8 +80,8 @@ async def fb_downloader(url: str = ""):
             status_code=400,
             content={
                 "error": "Missing 'url' query parameter",
-                "api_owner": "@ISmartCoder",
-                "api_updates": "t.me/abirxdhackz"
+                "developer": "Haseeb Sahil",
+                "tg_channal": "@hsmodzofc2"
             }
         )
 
@@ -90,8 +90,8 @@ async def fb_downloader(url: str = ""):
             status_code=400,
             content={
                 "error": "Only Facebook URLs are supported!",
-                "api_owner": "@ISmartCoder",
-                "api_updates": "t.me/abirxdhackz"
+                "developer": "Haseeb Sahil",
+                "tg_channal": "@hsmodzofc2"
             }
         )
 
@@ -124,8 +124,8 @@ async def fb_downloader(url: str = ""):
                     status_code=502,
                     content={
                         "error": "Third-party service temporarily down",
-                        "api_owner": "@ISmartCoder",
-                        "api_updates": "t.me/abirxdhackz"
+                        "developer": "Haseeb Sahil",
+                        "tg_channal": "@hsmodzofc2"
                     }
                 )
 
@@ -193,8 +193,8 @@ async def fb_downloader(url: str = ""):
                     status_code=404,
                     content={
                         "error": "No downloadable links found (fdown returned no links; video may be private/age/region locked, or fdown blocked your server IP).",
-                        "api_owner": "@ISmartCoder",
-                        "api_updates": "t.me/abirxdhackz"
+                        "developer": "Haseeb Sahil",
+                        "tg_channal": "@hsmodzofc2"
                     }
                 )
 
@@ -203,8 +203,8 @@ async def fb_downloader(url: str = ""):
                 "thumbnail": thumbnail,
                 "links": unique_links,
                 "total_links": len(unique_links),
-                "api_owner": "@ISmartCoder",
-                "api_updates": "t.me/abirxdhackz"
+                "developer": "Haseeb Sahil",
+                "tg_channal": "@hsmodzofc2"
             }
 
     except Exception as e:
@@ -212,7 +212,7 @@ async def fb_downloader(url: str = ""):
             status_code=500,
             content={
                 "error": f"Server error: {str(e)}",
-                "api_owner": "@ISmartCoder",
-                "api_updates": "t.me/abirxdhackz"
+                "developer": "Haseeb Sahil",
+                "tg_channal": "@hsmodzofc2"
             }
         )
