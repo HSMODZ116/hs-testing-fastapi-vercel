@@ -1,3 +1,5 @@
-fastapi==0.115.0
-requests==2.32.3
-py-yt==1.6.4
+fastapi
+requests
+py-yt-search==0.2
+aiohttp<3.13
+pydantic<2.0
