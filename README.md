@@ -1,15 +1,18 @@
-# A360 YT API (Vercel Ready)
+# A360 Social Downloader (Vercel)
 
-This is a minimal deploy bundle extracted from `A360API-main.zip` containing ONLY the YouTube endpoints.
+This is a Vercel-ready FastAPI app exposing only 4 downloaders from A360API:
 
-## Endpoints
-- GET `/yt/search?query=...`
-- GET `/yt/dl?url=...`
+- Instagram:  GET /insta/dl?url=
+- Facebook:   GET /fb/dl?url=
+- TikTok:     GET /tik/dl?url=
+- Pinterest:  GET /pnt/dl?url=
 
-## Deploy on Vercel
-1. Push this folder to GitHub (or upload to Vercel).
-2. In Vercel: New Project -> Import repo -> Deploy.
+After deploy, open `/docs` for Swagger UI.
 
-## Notes
-- `/yt/dl` uses `https://www.clipto.com/api/youtube` to fetch download links.
-- Logging writes to stdout on Vercel (no log file).
+## Deploy
+- Push this folder to GitHub
+- Import in Vercel and Deploy (Framework: Other)
+
+## Local run
+pip install -r requirements.txt
+uvicorn api.index:app --reload
