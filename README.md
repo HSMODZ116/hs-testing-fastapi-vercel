@@ -1,18 +1,21 @@
-# A360 Social Downloader (Vercel)
+# A360 IMG-AI (Gemini) - Vercel Ready
 
-This is a Vercel-ready FastAPI app exposing only 4 downloaders from A360API:
+## Setup (Vercel)
+Add an environment variable:
+- GEMINI_API_KEY = your Google AI Studio key
 
-- gram:  GET /insta/dl?url=
-- Facebook:   GET /fb/dl?url=
-- TikTok:     GET /tik/dl?url=
-- Pinterest:  GET /pnt/dl?url=
+## Endpoints
+- GET  /imgai/ping
+- POST /imgai/analysis
+- POST /imgai/ocr
 
-After deploy, open `/docs` for Swagger UI.
+### Request body (JSON)
+{
+  "code": "<base64-image>",
+  "mimeType": "image/jpeg",
+  "prompt": "optional custom prompt"
+}
 
-## Deploy
-- Push this folder to GitHub
-- Import in Vercel and Deploy (Framework: Other)
-
-## Local run
-pip install -r requirements.txt
-uvicorn api.index:app --reload
+## Notes
+- This project does NOT generate images. It does image analysis + OCR using Gemini.
+- Keep your API key private; do not commit it to GitHub.
