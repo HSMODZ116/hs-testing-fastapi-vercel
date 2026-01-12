@@ -1,22 +1,23 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <meta name="description" content="WebSource Downloader: Download complete website source code including HTML, CSS, JS, images, and fonts as a ZIP file.">
-    <meta name="keywords" content="WebSource, Website Downloader, Source Code, HTML, CSS, JavaScript, Download Website, Clone Website">
-    <meta name="author" content="Abir Arafat Chawdhury (@ISmartCoder)">
-    <title>WebSource Downloader - Download Any Website Source</title>
-    <link rel="icon" href="https://i.ibb.co/cXKbHb7K/photo-2025-08-09-10-06-41.jpg" type="image/jpeg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <meta property="og:title" content="WebSource Downloader - Download Any Website Source">
-    <meta property="og:description" content="Download complete website source code including HTML, CSS, JS, images, and fonts as a ZIP file.">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+<meta content="WebSource Downloader: Download complete website source code including HTML, CSS, JS, images, and fonts as a ZIP file." name="description"/>
+<meta content="WebSource, Website Downloader, Source Code, HTML, CSS, JavaScript, Download Website, Clone Website" name="keywords"/>
+<meta content="Abir Arafat Chawdhury (@ISmartCoder)" name="author"/>
+<title>WebSource Downloader - Download Any Website Source</title>
+<link href="https://i.ibb.co/cXKbHb7K/photo-2025-08-09-10-06-41.jpg" rel="icon" type="image/jpeg"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<meta content="WebSource Downloader - Download Any Website Source" property="og:title"/>
+<meta content="Download complete website source code including HTML, CSS, JS, images, and fonts as a ZIP file." property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<style>
         *, *::before, *::after {
             margin: 0;
             padding: 0;
@@ -1019,245 +1020,240 @@
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
+<div class="bg-gradient"></div>
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+<div class="loading-content">
+<div class="loading-spinner"></div>
+<p class="loading-text">Downloading Website...</p>
+<p class="loading-subtext" id="loadingSubtext">Fetching HTML, CSS, JS, images &amp; fonts</p>
+<div class="loading-progress">
+<div class="loading-progress-bar" id="progressBar"></div>
+</div>
+</div>
+</div>
+<!-- Hero Section -->
+<section class="hero">
+<img alt="WebSource" class="logo" src="https://files.catbox.moe/xl02yg.jpg"/>
+<div class="badge">
+<span>Created by Haseeb Sahil</span>
+<img alt="PK" src="https://flagcdn.com/w40/pk.png"/>
+</div>
+<h1>WebSource</h1>
+<p class="hero-desc">Download complete website source code including HTML, CSS, JavaScript, images, and fonts — all packaged in a single ZIP file.</p>
+<div class="status">
+<span class="status-dot"></span>
+<span>Service Online</span>
+</div>
+<div class="stats">
+<div class="stat">
+<div class="stat-icon"><i class="fa-solid fa-file-code"></i></div>
+<span class="stat-value">All</span>
+<span class="stat-label">Assets</span>
+</div>
+<div class="stat">
+<div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
+<span class="stat-value">Fast</span>
+<span class="stat-label">Download</span>
+</div>
+<div class="stat">
+<div class="stat-icon"><i class="fa-solid fa-file-zipper"></i></div>
+<span class="stat-value">ZIP</span>
+<span class="stat-label">Output</span>
+</div>
+<div class="stat">
+<div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
+<span class="stat-value">Safe</span>
+<span class="stat-label">Secure</span>
+</div>
+</div>
+</section>
+<!-- Download Section -->
+<div class="download-section">
+<div class="download-card">
+<h2><i class="fa-solid fa-download"></i> Download Website Source</h2>
+<p>Enter any website URL to download its complete source code</p>
+<form id="downloadForm">
+<div class="input-group">
+<div class="input-wrapper">
+<input autocomplete="off" id="urlInput" placeholder="https://example.com" required="" spellcheck="false" type="text"/>
+<i class="fa-solid fa-globe"></i>
+</div>
+<button class="btn btn-primary" id="downloadBtn" type="submit">
+<i class="fa-solid fa-download"></i>
+<span>Download</span>
+</button>
+</div>
+</form>
+<!-- Result Section -->
+<div class="result-section" id="resultSection">
+<div class="result-header">
+<div class="result-icon">
+<i class="fa-solid fa-check" id="resultIconSuccess"></i>
+<i class="fa-solid fa-xmark" id="resultIconError" style="display:none;"></i>
+</div>
+<span class="result-title" id="resultTitle">Download Ready!</span>
+</div>
+<div class="result-info" id="resultInfo">
+<div class="info-item">
+<i class="fa-solid fa-globe"></i>
+<div>
+<div class="label">Domain</div>
+<div class="value" id="infoDomain">-</div>
+</div>
+</div>
+<div class="info-item">
+<i class="fa-solid fa-file"></i>
+<div>
+<div class="label">Files</div>
+<div class="value" id="infoFiles">-</div>
+</div>
+</div>
+<div class="info-item">
+<i class="fa-solid fa-hard-drive"></i>
+<div>
+<div class="label">Size</div>
+<div class="value" id="infoSize">-</div>
+</div>
+</div>
+<div class="info-item">
+<i class="fa-solid fa-clock"></i>
+<div>
+<div class="label">Time</div>
+<div class="value" id="infoTime">-</div>
+</div>
+</div>
+</div>
+<div class="result-actions" id="resultActions">
+<a class="btn btn-success" download="" href="#" id="downloadLink">
+<i class="fa-solid fa-file-arrow-down"></i>
+<span>Download ZIP</span>
+</a>
+<button class="btn btn-secondary" id="copyLinkBtn">
+<i class="fa-solid fa-copy"></i>
+<span>Copy Link</span>
+</button>
+</div>
+<p class="error-message" id="errorMessage" style="display:none;"></p>
+</div>
+<!-- History Section -->
+<div class="history-section" id="historySection">
+<div class="history-title">
+<h4><i class="fa-solid fa-clock-rotate-left"></i> Recent Downloads</h4>
+<button class="history-clear" id="clearHistory">Clear All</button>
+</div>
+<div class="history-list" id="historyList">
+<div class="history-empty">No recent downloads</div>
+</div>
+</div>
+</div>
+<div class="download-card" id="infinityfree-recovery">
+<h2><i class="fa-solid fa-wand-magic-sparkles"></i> InfinityFree Source Recovery</h2>
+<p>InfinityFree hosting (aes.js / slowAES) protected pages ka original HTML recover karke download karo.</p>
+<div class="input-group" style="margin-top: 14px;">
+<div class="input-wrapper">
+<input autocomplete="off" id="recoverUrlInput" placeholder="https://your-site.epizy.com/page.html" spellcheck="false" type="text"/>
+<i class="fa-solid fa-shield-halved"></i>
+</div>
+<button class="btn btn-secondary" id="recoverBtn" onclick="recoverSource()" type="button">
+<i class="fa-solid fa-file-arrow-down"></i>
+<span>Recover</span>
+</button>
+</div>
+<div class="result" id="recoverResult" style="display:none; margin-top: 14px;"></div>
+<div class="tips" style="margin-top: 18px;">
+<p><strong>Note:</strong> Ye tool kuch pages par work nahi karega agar protection extra strong ho ya server blocks hon.</p>
+</div>
+</div>
 
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <p class="loading-text">Downloading Website...</p>
-            <p class="loading-subtext" id="loadingSubtext">Fetching HTML, CSS, JS, images & fonts</p>
-            <div class="loading-progress">
-                <div class="loading-progress-bar" id="progressBar"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <img src="https://i.ibb.co/cXKbHb7K/photo-2025-08-09-10-06-41.jpg" alt="WebSource" class="logo">
-        <div class="badge">
-            <span>Created by Abir Arafat Chawdhury</span>
-            <img src="https://flagcdn.com/w40/bd.png" alt="BD">
-        </div>
-        <h1>WebSource</h1>
-        <p class="hero-desc">Download complete website source code including HTML, CSS, JavaScript, images, and fonts — all packaged in a single ZIP file.</p>
-        <div class="status">
-            <span class="status-dot"></span>
-            <span>Service Online</span>
-        </div>
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-icon"><i class="fa-solid fa-file-code"></i></div>
-                <span class="stat-value">All</span>
-                <span class="stat-label">Assets</span>
-            </div>
-            <div class="stat">
-                <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
-                <span class="stat-value">Fast</span>
-                <span class="stat-label">Download</span>
-            </div>
-            <div class="stat">
-                <div class="stat-icon"><i class="fa-solid fa-file-zipper"></i></div>
-                <span class="stat-value">ZIP</span>
-                <span class="stat-label">Output</span>
-            </div>
-            <div class="stat">
-                <div class="stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                <span class="stat-value">Safe</span>
-                <span class="stat-label">Secure</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Download Section -->
-    <div class="download-section">
-        <div class="download-card">
-            <h2><i class="fa-solid fa-download"></i> Download Website Source</h2>
-            <p>Enter any website URL to download its complete source code</p>
-            
-            <form id="downloadForm">
-                <div class="input-group">
-                    <div class="input-wrapper">
-                        <input type="text" id="urlInput" placeholder="https://example.com" required autocomplete="off" spellcheck="false">
-                        <i class="fa-solid fa-globe"></i>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="downloadBtn">
-                        <i class="fa-solid fa-download"></i>
-                        <span>Download</span>
-                    </button>
-                </div>
-            </form>
-
-            <!-- Result Section -->
-            <div class="result-section" id="resultSection">
-                <div class="result-header">
-                    <div class="result-icon">
-                        <i class="fa-solid fa-check" id="resultIconSuccess"></i>
-                        <i class="fa-solid fa-xmark" id="resultIconError" style="display:none;"></i>
-                    </div>
-                    <span class="result-title" id="resultTitle">Download Ready!</span>
-                </div>
-                
-                <div class="result-info" id="resultInfo">
-                    <div class="info-item">
-                        <i class="fa-solid fa-globe"></i>
-                        <div>
-                            <div class="label">Domain</div>
-                            <div class="value" id="infoDomain">-</div>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fa-solid fa-file"></i>
-                        <div>
-                            <div class="label">Files</div>
-                            <div class="value" id="infoFiles">-</div>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fa-solid fa-hard-drive"></i>
-                        <div>
-                            <div class="label">Size</div>
-                            <div class="value" id="infoSize">-</div>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fa-solid fa-clock"></i>
-                        <div>
-                            <div class="label">Time</div>
-                            <div class="value" id="infoTime">-</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="result-actions" id="resultActions">
-                    <a href="#" class="btn btn-success" id="downloadLink" download>
-                        <i class="fa-solid fa-file-arrow-down"></i>
-                        <span>Download ZIP</span>
-                    </a>
-                    <button class="btn btn-secondary" id="copyLinkBtn">
-                        <i class="fa-solid fa-copy"></i>
-                        <span>Copy Link</span>
-                    </button>
-                </div>
-
-                <p class="error-message" id="errorMessage" style="display:none;"></p>
-            </div>
-
-            <!-- History Section -->
-            <div class="history-section" id="historySection">
-                <div class="history-title">
-                    <h4><i class="fa-solid fa-clock-rotate-left"></i> Recent Downloads</h4>
-                    <button class="history-clear" id="clearHistory">Clear All</button>
-                </div>
-                <div class="history-list" id="historyList">
-                    <div class="history-empty">No recent downloads</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <main class="main">
-        <section class="section">
-            <h2 class="section-title">What Gets Downloaded?</h2>
-            <p>WebSource captures everything needed to recreate a webpage locally — all resources are organized into folders for easy navigation.</p>
-            <div class="formats-grid">
-                <span class="format-tag"><i class="fa-solid fa-code"></i> HTML</span>
-                <span class="format-tag"><i class="fa-brands fa-css3-alt"></i> CSS</span>
-                <span class="format-tag"><i class="fa-brands fa-js"></i> JavaScript</span>
-                <span class="format-tag"><i class="fa-solid fa-image"></i> Images</span>
-                <span class="format-tag"><i class="fa-solid fa-font"></i> Fonts</span>
-                <span class="format-tag"><i class="fa-solid fa-icons"></i> Icons</span>
-                <span class="format-tag"><i class="fa-solid fa-file-code"></i> SVG</span>
-                <span class="format-tag"><i class="fa-solid fa-file"></i> JSON</span>
-                <span class="format-tag"><i class="fa-solid fa-photo-film"></i> Media</span>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2 class="section-title">Premium Features</h2>
-            <div class="features-grid">
-                <div class="feature">
-                    <div class="feature-icon"><i class="fa-solid fa-rocket"></i></div>
-                    <h3>Lightning Fast</h3>
-                    <p>Concurrent downloads with optimized processing for speed.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon"><i class="fa-solid fa-layer-group"></i></div>
-                    <h3>Complete Assets</h3>
-                    <p>All CSS, JS, images, fonts, and media files included.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon"><i class="fa-solid fa-folder-tree"></i></div>
-                    <h3>Organized Structure</h3>
-                    <p>Files sorted into css/, js/, images/, fonts/ folders.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon"><i class="fa-solid fa-link"></i></div>
-                    <h3>Path Rewriting</h3>
-                    <p>All resource paths updated to work locally.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h3>Size Limit</h3>
-                    <p>19MB limit per download for security & performance.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon"><i class="fa-solid fa-code"></i></div>
-                    <h3>RESTful API</h3>
-                    <p>Simple API endpoint for programmatic access.</p>
-                </div>
-            </div>
-        </section>
-
-        <div class="api-section">
-            <h3><i class="fa-solid fa-terminal"></i> API Endpoint</h3>
-            <p>Use the API directly in your applications for automated website downloading.</p>
-            <div class="code-block">
-                <code id="apiEndpoint">GET /api/web?url=https://example.com</code>
-                <button class="copy-btn" onclick="copyApiEndpoint()" title="Copy to clipboard">
-                    <i class="fa-solid fa-copy"></i>
-                </button>
-            </div>
-            <a href="/docs" class="btn btn-gold" target="_blank">
-                <i class="fa-solid fa-book"></i>
-                <span>View API Documentation</span>
-            </a>
-        </div>
-
-        <section class="section">
-            <h2 class="section-title">How It Works</h2>
-            <p>Enter a URL → Our system fetches the page and all its resources → Everything is packaged into an organized ZIP file → Download and use locally. Files expire after 5 minutes for security.</p>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <h3>WebSource Downloader</h3>
-        <div class="socials">
-            <a href="https://github.com/abirxdhack" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
-            <a href="https://facebook.com/abirxdhackz" target="_blank" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="https://instagram.com/abirxdhackz" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://x.com/abirxdhackz" target="_blank" title="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="https://youtube.com/@abirxdhackz" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-            <a href="https://t.me/ISmartCoder" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
-        </div>
-        <p class="footer-text">
-            Built with ❤️ by <a href="https://t.me/ISmartCoder" target="_blank">Abir Arafat Chawdhury 🇧🇩</a><br>
-            Join community: <a href="https://t.me/abirxdhackz" target="_blank">t.me/abirxdhackz</a>
-        </p>
-        <div class="copyright">© 2025 WebSource Downloader. All Rights Reserved.</div>
-    </footer>
-
-    <!-- Toast -->
-    <div class="toast" id="toast">
-        <i class="fa-solid fa-circle-check"></i>
-        <span id="toastMessage">Copied to clipboard!</span>
-        <button onclick="hideToast()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <script>
+</div>
+<!-- Main Content -->
+<main class="main">
+<section class="section">
+<h2 class="section-title">What Gets Downloaded?</h2>
+<p>WebSource captures everything needed to recreate a webpage locally — all resources are organized into folders for easy navigation.</p>
+<div class="formats-grid">
+<span class="format-tag"><i class="fa-solid fa-code"></i> HTML</span>
+<span class="format-tag"><i class="fa-brands fa-css3-alt"></i> CSS</span>
+<span class="format-tag"><i class="fa-brands fa-js"></i> JavaScript</span>
+<span class="format-tag"><i class="fa-solid fa-image"></i> Images</span>
+<span class="format-tag"><i class="fa-solid fa-font"></i> Fonts</span>
+<span class="format-tag"><i class="fa-solid fa-icons"></i> Icons</span>
+<span class="format-tag"><i class="fa-solid fa-file-code"></i> SVG</span>
+<span class="format-tag"><i class="fa-solid fa-file"></i> JSON</span>
+<span class="format-tag"><i class="fa-solid fa-photo-film"></i> Media</span>
+</div>
+</section>
+<section class="section">
+<h2 class="section-title">Premium Features</h2>
+<div class="features-grid">
+<div class="feature">
+<div class="feature-icon"><i class="fa-solid fa-rocket"></i></div>
+<h3>Lightning Fast</h3>
+<p>Concurrent downloads with optimized processing for speed.</p>
+</div>
+<div class="feature">
+<div class="feature-icon"><i class="fa-solid fa-layer-group"></i></div>
+<h3>Complete Assets</h3>
+<p>All CSS, JS, images, fonts, and media files included.</p>
+</div>
+<div class="feature">
+<div class="feature-icon"><i class="fa-solid fa-folder-tree"></i></div>
+<h3>Organized Structure</h3>
+<p>Files sorted into css/, js/, images/, fonts/ folders.</p>
+</div>
+<div class="feature">
+<div class="feature-icon"><i class="fa-solid fa-link"></i></div>
+<h3>Path Rewriting</h3>
+<p>All resource paths updated to work locally.</p>
+</div>
+<div class="feature">
+<div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+<h3>Size Limit</h3>
+<p>19MB limit per download for security &amp; performance.</p>
+</div>
+<div class="feature">
+<div class="feature-icon"><i class="fa-solid fa-code"></i></div>
+<h3>RESTful API</h3>
+<p>Simple API endpoint for programmatic access.</p>
+</div>
+</div>
+</section>
+<div class="api-section">
+<h3><i class="fa-solid fa-terminal"></i> API Endpoint</h3>
+<p>Use the API directly in your applications for automated website downloading.</p>
+<div class="code-block">
+<code id="apiEndpoint">GET /api/web?url=https://example.com</code>
+<button class="copy-btn" onclick="copyApiEndpoint()" title="Copy to clipboard">
+<i class="fa-solid fa-copy"></i>
+</button>
+</div>
+<a class="btn btn-gold" href="/docs" target="_blank">
+<i class="fa-solid fa-book"></i>
+<span>View API Documentation</span>
+</a>
+</div>
+<section class="section">
+<h2 class="section-title">How It Works</h2>
+<p>Enter a URL → Our system fetches the page and all its resources → Everything is packaged into an organized ZIP file → Download and use locally. Files expire after 5 minutes for security.</p>
+</section>
+</main>
+<!-- Footer -->
+<footer>
+<h3>WebSource Downloader</h3>
+<p class="footer-text">
+            Built with ❤️ by <a href="https://t.me/ISmartCoder" target="_blank">Haseeb Sahil 🎭</a><br/>
+            Join community: <a href="https://t.me/hsmodzofc2" target="_blank">t.me/hsmodzofc2</a>
+</p>
+<div class="copyright">© 2025 WebSource Downloader. All Rights Reserved.</div>
+</footer>
+<!-- Toast -->
+<div class="toast" id="toast">
+<i class="fa-solid fa-circle-check"></i>
+<span id="toastMessage">Copied to clipboard!</span>
+<button onclick="hideToast()"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<script>
         // Configuration
         const API_BASE_URL = window.location.origin;
         
@@ -1536,6 +1532,50 @@
                 urlInput.focus();
             }
         });
-    </script>
+    
+
+        // InfinityFree Recovery
+        async function recoverSource() {
+            const input = document.getElementById('recoverUrlInput');
+            const url = (input?.value || '').trim();
+            const resultDiv = document.getElementById('recoverResult');
+
+            if (!url) {
+                alert('Please enter a URL to recover');
+                return;
+            }
+
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '🔄 Recovering source code...';
+            resultDiv.style.display = 'block';
+
+            try {
+                const response = await fetch(`/api/recover?url=${encodeURIComponent(url)}`);
+
+                if (response.ok) {
+                    const blob = await response.blob();
+
+                    const downloadUrl = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = downloadUrl;
+                    a.download = 'recovered-original.html';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(downloadUrl);
+
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = '✅ Source recovered! Download started.';
+                } else {
+                    const errorText = await response.text();
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Error: ${errorText}`;
+                }
+            } catch (err) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Network error: ${err.message || err}`;
+            }
+        }
+</script>
 </body>
 </html>
